@@ -2304,6 +2304,7 @@ GameObject:
   - component: {fileID: 1126366679}
   - component: {fileID: 1126366678}
   - component: {fileID: 1126366677}
+  - component: {fileID: 1126366681}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2323,9 +2324,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f77e14355e9ea9408bccc2c792e1bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 100
-  thrust: 100
-  _rotationSpeed: 1
+  _maxSpeed: 3
+  thrust: 200
+  _rotationSpeed: 0.75
 --- !u!50 &1126366678
 Rigidbody2D:
   serializedVersion: 5
@@ -2415,6 +2416,18 @@ Transform:
   - {fileID: 1238696768}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1126366681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126366676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502767b63c1992a449f402880986b869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1238696767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2425,6 +2438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1238696768}
   - component: {fileID: 1238696769}
+  - component: {fileID: 1238696770}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -2502,6 +2516,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1238696770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238696767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0638d03ec6e3b439a1c1bdd0f1a9cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onInvisible:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1126366681}
+        m_TargetAssemblyTypeName: ScreenWrap, Assembly-CSharp
+        m_MethodName: ChangePosition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onVisible:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
