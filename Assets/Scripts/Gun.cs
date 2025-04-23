@@ -1,4 +1,6 @@
+using Assets.Scripts;
 using UnityEngine;
+using static ObjectPool;
 
 public class Gun : MonoBehaviour
 {
@@ -14,6 +16,27 @@ public class Gun : MonoBehaviour
     }
     private void Shot()
     {
-        Instantiate(_bulletPrefab, _muzzlePosition.position, _muzzlePosition.rotation);
+        if (_bulletPrefab != null)
+        {
+            GameObject bulletObject = ObjectPool.Instance.Get(_bulletPrefab);
+
+            if (bulletObject != null)
+            {
+                Poolable poolable = bulletObject.GetComponent<Poolable>();
+                if (poolable != null)
+                    poolable.Prefab = _bulletPrefab;
+                else
+                {
+                    poolable = bulletObject.AddComponent<Poolable>();
+                    poolable.Prefab = _bulletPrefab;
+                }
+                bulletObject.SetActive(true);
+                bulletObject.GetComponent<Bullet>().SetBullet(_muzzlePosition);
+            }
+        }
+        else
+        {
+            Debug.LogError("Bullet Prefab not assigned in the Shooter script.");
+        }
     }
 }

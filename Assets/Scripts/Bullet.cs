@@ -15,16 +15,28 @@ namespace Assets.Scripts
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
         }
+        public void SetBullet(Transform transform)
+        {
+            this.transform.position = transform.position; 
+            this.transform.rotation = transform.rotation;
+            _rigidbody2D.AddForce(-this.transform.up * _speed);
+        }
         private IEnumerator AutoDestroyCoroutine()
         {
             yield return new WaitForSeconds(_secondsDestroy);
             gameObject.SetActive(false);
-            _collider.enabled = false;
         }
         private void OnEnable()
         {
-            _rigidbody2D.AddForce(-transform.up * _speed);
+            _collider.enabled = true;
             StartCoroutine(AutoDestroyCoroutine());
+        }
+        private void OnDisable()
+        {
+            this.transform.position = Vector3.zero;
+            this.transform.rotation = Quaternion.identity;
+            _rigidbody2D.linearVelocity = Vector3.zero;
+            _collider.enabled = false;
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
