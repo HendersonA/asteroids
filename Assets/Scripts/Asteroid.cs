@@ -6,6 +6,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float _speedMax = 2f;
     [SerializeField] private float _speedRotationMin = 1f;
     [SerializeField] private float _speeRotationdMax = 2f;
+    [SerializeField] private LayerMask _layerMask;
     private Rigidbody2D _rigidBody;
 
     private void Awake()
@@ -15,6 +16,14 @@ public class Asteroid : MonoBehaviour
     private void Start()
     {
         SetAsteroidMovement();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IDamageable damageable) &&
+            (_layerMask.value & (1 << collision.gameObject.layer)) != 0)
+        {
+            damageable.TakeDamage();
+        }
     }
     [ContextMenu("SetAsteroidMovement")]
     private void SetAsteroidMovement()

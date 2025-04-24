@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3478107014668956737}
   - component: {fileID: 2859674681601435909}
   - component: {fileID: 6333834747832363684}
+  - component: {fileID: 1319085188184056776}
   m_Layer: 6
   m_Name: Asteroid
   m_TagString: Untagged
@@ -125,6 +126,9 @@ MonoBehaviour:
   _speedMax: 2
   _speedRotationMin: 3
   _speeRotationdMax: 10
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!114 &6333834747832363684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +141,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 502767b63c1992a449f402880986b869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1319085188184056776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7770125042720378526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea62e3bdd243994fbebf8ff4227a39d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7770125042720378526}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  <MaxLives>k__BackingField: 1
+  <_CurrentLive>k__BackingField: 0
 --- !u!1 &8732985815660139126
 GameObject:
   m_ObjectHideFlags: 0

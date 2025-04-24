@@ -26,6 +26,13 @@ namespace Assets.Scripts
             yield return new WaitForSeconds(_secondsDestroy);
             gameObject.SetActive(false);
         }
+        private void Hit()
+        {
+            this.transform.position = Vector3.zero;
+            this.transform.rotation = Quaternion.identity;
+            _rigidbody2D.linearVelocity = Vector3.zero;
+            _collider.enabled = false;
+        }
         private void OnEnable()
         {
             _collider.enabled = true;
@@ -33,14 +40,15 @@ namespace Assets.Scripts
         }
         private void OnDisable()
         {
-            this.transform.position = Vector3.zero;
-            this.transform.rotation = Quaternion.identity;
-            _rigidbody2D.linearVelocity = Vector3.zero;
-            _collider.enabled = false;
+            Hit();
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            
+            if (collision.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage();
+                gameObject.SetActive(false);
+            }
         }
     }
 }
