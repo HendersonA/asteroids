@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
-    [SerializeField] private int _score = 10;
     [SerializeField] private float _speedMin = 1f;
     [SerializeField] private float _speedMax = 2f;
     [SerializeField] private float _speedRotationMin = 1f;
@@ -36,9 +35,5 @@ public class Asteroid : MonoBehaviour
         var force = new Vector2(directionX, directiony) * randomSpeed;
         _rigidBody.linearVelocity = force;
         _rigidBody.angularVelocity = randomRotationSpeed;
-    }
-    public void SetScore()
-    {
-        ScoreManager.Instance.AddScore(_score);
     }
 }

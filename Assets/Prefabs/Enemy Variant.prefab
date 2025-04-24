@@ -135,6 +135,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 624916408563495516, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6122315104465491482}
+    - targetCorrespondingSourceObject: {fileID: 624916408563495516, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4765520153011713774}
   m_SourcePrefab: {fileID: 100100000, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
 --- !u!114 &4408189111406037305 stripped
 MonoBehaviour:
@@ -164,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ca0d1e31b5a1e549bde1301a58af07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _secondsAppear: 3
   _speed: 150
   screenWrap: {fileID: 6122315104465491482}
   _firePrecision: 50
@@ -202,6 +206,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4765520153011713774}
+        m_TargetAssemblyTypeName: Score, Assembly-CSharp
+        m_MethodName: SetScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <MaxLives>k__BackingField: 3
   <_CurrentLive>k__BackingField: 0
 --- !u!114 &6122315104465491482
@@ -216,3 +232,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 502767b63c1992a449f402880986b869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4765520153011713774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5254934625455300191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3d50fc5f187c94c993bec233c5824e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _score: 10

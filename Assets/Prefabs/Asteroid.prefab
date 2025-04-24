@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2859674681601435909}
   - component: {fileID: 6333834747832363684}
   - component: {fileID: 1319085188184056776}
+  - component: {fileID: -236415200335977794}
   m_Layer: 6
   m_Name: Asteroid
   m_TagString: Untagged
@@ -122,7 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21706dbc929b05c4c811738e6857cea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _score: 10
   _speedMin: 1.5
   _speedMax: 2
   _speedRotationMin: 3
@@ -175,8 +175,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2859674681601435909}
-        m_TargetAssemblyTypeName: Asteroid, Assembly-CSharp
+      - m_Target: {fileID: -236415200335977794}
+        m_TargetAssemblyTypeName: Score, Assembly-CSharp
         m_MethodName: SetScore
         m_Mode: 1
         m_Arguments:
@@ -189,6 +189,19 @@ MonoBehaviour:
         m_CallState: 2
   <MaxLives>k__BackingField: 1
   <_CurrentLive>k__BackingField: 0
+--- !u!114 &-236415200335977794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7770125042720378526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3d50fc5f187c94c993bec233c5824e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _score: 10
 --- !u!1 &8732985815660139126
 GameObject:
   m_ObjectHideFlags: 0
