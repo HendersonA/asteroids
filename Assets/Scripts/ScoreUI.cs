@@ -1,20 +1,16 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class ScoreUI : MonoBehaviour, IObserver<int>
+public class ScoreUI : MonoBehaviour
 {
     public TMP_Text scoreText;
     private void Start()
     {
-        ScoreManager.Instance.Subscribe(this);
+        ScoreManager.Instance.OnScore += UpdateScoreDisplay;
     }
     private void OnDestroy()
     {
-        ScoreManager.Instance.Unsubscribe(this);
-    }
-    public void OnNotify(int newScore)
-    {
-        UpdateScoreDisplay(newScore);
+        ScoreManager.Instance.OnScore -= UpdateScoreDisplay;
     }
     private void UpdateScoreDisplay(int currentScore)
     {

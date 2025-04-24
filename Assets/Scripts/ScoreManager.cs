@@ -1,6 +1,10 @@
-﻿public class ScoreManager : Subject<int>
+﻿using System;
+using UnityEngine;
+
+public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
+    public event Action<int> OnScore;
     private int currentScore = 0;
 
     private void Awake()
@@ -16,11 +20,7 @@
     }
     public void AddScore(int points)
     {
-        currentScore += points;
-        NotifyObservers(currentScore);
-    }
-    protected override int GetState()
-    {
-        return currentScore;
+        currentScore += points; 
+        OnScore?.Invoke(currentScore);
     }
 }
