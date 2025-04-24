@@ -6,9 +6,16 @@ using static ObjectPool;
 public class WaveManager : MonoBehaviour
 {
     [Serializable]
+    public struct WaveElement
+    {
+        public GameObject Prefab;
+        public int Amount;
+    }
+    [Serializable]
     public struct Wave
     {
-        public GameObject[] _prefabs;
+        public string Name;
+        public WaveElement[] WaveElements;
     }
     [SerializeField] private Wave[] _waves;
     public Action OnStartWave;
@@ -28,10 +35,13 @@ public class WaveManager : MonoBehaviour
         if (_currentWaveIndex > _waves.Length - 1) _currentWaveIndex = 0;
 
         var wave = _waves[_currentWaveIndex];
-        for (int j = 0; j < wave._prefabs.Length; j++)
+        for (int j = 0; j < wave.WaveElements.Length; j++)
         {
-            var prefab = wave._prefabs[j];
-            SpawnFromPool(prefab);
+            var element = wave.WaveElements[j];
+            for (int i = 0; i < element.Amount; i++)
+            {
+                SpawnFromPool(element.Prefab);
+            }
         }
     }
     private void SpawnFromPool(GameObject prefabObject)

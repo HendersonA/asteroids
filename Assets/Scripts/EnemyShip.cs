@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class EnemyShip : MonoBehaviour
 {
+    [SerializeField] private float _secondsAppear = 3f;
     [SerializeField] private float _speed = 2f;
     [SerializeField] private ScreenWrap screenWrap;
     [SerializeField, Range(0, 100)] private int _firePrecision = 100;
@@ -17,12 +18,17 @@ public class EnemyShip : MonoBehaviour
     }
     private void OnEnable()
     {
-        EnemyMovement();
-        StartCoroutine(ShootRandomOverTime());
+        StartCoroutine(WaitToStartCoroutine());
     }
     private void OnDisable()
     {
-        StopCoroutine(ShootRandomOverTime());
+        StopAllCoroutines();
+    }
+    private IEnumerator WaitToStartCoroutine()
+    {
+        yield return new WaitForSeconds(_secondsAppear);
+        StartCoroutine(ShootRandomOverTime());
+        EnemyMovement();
     }
     [ContextMenu("Enemy Movement")]
     private void EnemyMovement()
@@ -43,6 +49,7 @@ public class EnemyShip : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+    #region Gun
     public IEnumerator ShootRandomOverTime()
     {
         while (true)
@@ -74,4 +81,5 @@ public class EnemyShip : MonoBehaviour
         Debug.DrawRay(transform.position, direcao * distancia, Color.red, 1f); // visualiza no editor
         return direcao;
     }
+    #endregion
 }
