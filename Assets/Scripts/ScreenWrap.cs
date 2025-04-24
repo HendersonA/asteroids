@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ScreenWrap: MonoBehaviour
 {
-    private float _screenWidth;
-    private float _screenHeight;
+    public float _screenWidth { get; private set; }
+    public float _screenHeight { get; private set; }
     private float _objectRadius;
     private Camera _mainCamera;
     private Renderer _renderer;

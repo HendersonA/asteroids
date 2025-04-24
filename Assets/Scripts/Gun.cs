@@ -14,7 +14,8 @@ public class Gun : MonoBehaviour
             Shot();
         }
     }
-    private void Shot()
+    [ContextMenu("Shot")]
+    public void Shot(Vector2? position = null)
     {
         if (_bulletPrefab != null)
         {
@@ -31,7 +32,7 @@ public class Gun : MonoBehaviour
                     poolable.Prefab = _bulletPrefab;
                 }
                 bulletObject.SetActive(true);
-                bulletObject.GetComponent<Bullet>().SetBullet(_muzzlePosition);
+                bulletObject.GetComponent<Bullet>().SetBullet(_muzzlePosition, position);
             }
         }
         else

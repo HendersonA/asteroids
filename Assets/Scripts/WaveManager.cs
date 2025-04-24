@@ -52,4 +52,5 @@ public class WaveManager : MonoBehaviour
             _cachedObjects.Add(poolObject);
         }
     }
+    //TODO Aleatoriedade da posição
 }

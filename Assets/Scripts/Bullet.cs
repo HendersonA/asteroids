@@ -15,11 +15,12 @@ namespace Assets.Scripts
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
         }
-        public void SetBullet(Transform transform)
+        public void SetBullet(Transform startTransform, Vector2? direction = null)
         {
-            this.transform.position = transform.position; 
-            this.transform.rotation = transform.rotation;
-            _rigidbody2D.AddForce(-this.transform.up * _speed);
+            this.transform.position = startTransform.position; 
+            this.transform.rotation = startTransform.rotation;
+            var newDirection = direction == null ? -this.transform.up : direction;
+            _rigidbody2D.AddForce(newDirection.Value * _speed);
         }
         private IEnumerator AutoDestroyCoroutine()
         {

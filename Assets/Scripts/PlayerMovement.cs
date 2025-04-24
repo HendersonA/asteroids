@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance;
     [SerializeField] private float _maxSpeed = 100f;
     [SerializeField] private float thrust = 2f;
     [SerializeField] private float _rotationSpeed = 2f;
@@ -10,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         _rigidBody = GetComponent<Rigidbody2D>();
     }
     private void Update()
