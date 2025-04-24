@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using static ObjectPool;
 
@@ -18,15 +17,12 @@ public class WaveManager : MonoBehaviour
         public WaveElement[] WaveElements;
     }
     [SerializeField] private Wave[] _waves;
-    public Action OnStartWave;
-    private List<GameObject> _cachedObjects;
+    private int activeEnemies = 0;
     private int _currentWaveIndex = -1;
 
     private void Start()
     {
-        _cachedObjects = new List<GameObject>();
         SpawnWave();
-        OnStartWave += SpawnWave;
     }
     [ContextMenu("Spawn Wave")]
     public void SpawnWave()
@@ -40,11 +36,14 @@ public class WaveManager : MonoBehaviour
             var element = wave.WaveElements[j];
             for (int i = 0; i < element.Amount; i++)
             {
-                SpawnFromPool(element.Prefab);
+                var spawnedObject = SpawnFromPool(element.Prefab);
+                RegisterEnemy();
+                spawnedObject.TryGetComponent(out Health health);
+                health.OnDeath.AddListener(EnemyDefeated);
             }
         }
     }
-    private void SpawnFromPool(GameObject prefabObject)
+    private GameObject SpawnFromPool(GameObject prefabObject)
     {
         GameObject poolObject = ObjectPool.Instance.Get(prefabObject);
 
@@ -59,8 +58,18 @@ public class WaveManager : MonoBehaviour
                 poolable.Prefab = prefabObject;
             }
             poolObject.SetActive(true);
-            _cachedObjects.Add(poolObject);
         }
+        return poolObject;
+    }
+    public void RegisterEnemy()
+    {
+        activeEnemies++;
+    }
+    public void EnemyDefeated()
+    {
+        activeEnemies--;
+        if (activeEnemies <= 0)
+            SpawnWave();
     }
     //TODO Aleatoriedade da posição
 }
