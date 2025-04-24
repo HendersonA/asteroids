@@ -2262,7 +2262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &720824017
 Transform:
   m_ObjectHideFlags: 0
@@ -2324,11 +2324,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waves:
-  - _prefabs:
-    - {fileID: 7770125042720378526, guid: edd0c73ca1e5c1449897e2507216c4d3, type: 3}
-  - _prefabs:
-    - {fileID: 7770125042720378526, guid: edd0c73ca1e5c1449897e2507216c4d3, type: 3}
-    - {fileID: 7770125042720378526, guid: edd0c73ca1e5c1449897e2507216c4d3, type: 3}
+  - Name: Wave 1
+    WaveElements:
+    - Prefab: {fileID: 7770125042720378526, guid: edd0c73ca1e5c1449897e2507216c4d3, type: 3}
+      Amount: 2
+    - Prefab: {fileID: 5254934625455300191, guid: 6f189cd7291830540a2d441bd8fb7564, type: 3}
+      Amount: 0
+  - Name: Wave 2
+    WaveElements:
+    - Prefab: {fileID: 7770125042720378526, guid: edd0c73ca1e5c1449897e2507216c4d3, type: 3}
+      Amount: 3
+    - Prefab: {fileID: 5254934625455300191, guid: 6f189cd7291830540a2d441bd8fb7564, type: 3}
+      Amount: 0
 --- !u!1 &1076687250
 GameObject:
   m_ObjectHideFlags: 0

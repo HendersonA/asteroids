@@ -12,12 +12,14 @@ public class EnemyShip : MonoBehaviour
     [SerializeField] private Gun _gun;
     private Rigidbody2D _rigidBody;
     private Vector2 _startPosition;
+    private Vector2 _startOrientation;
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
     }
     private void OnEnable()
     {
+        SetStartPosition();
         StartCoroutine(WaitToStartCoroutine());
     }
     private void OnDisable()
@@ -30,16 +32,19 @@ public class EnemyShip : MonoBehaviour
         StartCoroutine(ShootRandomOverTime());
         EnemyMovement();
     }
-    [ContextMenu("Enemy Movement")]
-    private void EnemyMovement()
+    private void SetStartPosition()
     {
         var randomHeight = Random.Range(-screenWrap._screenHeight, screenWrap._screenHeight);
         var randomWidth = Random.Range(0f, 1f) <= .5f ? screenWrap._screenWidth : -screenWrap._screenWidth;
         transform.position = new Vector3(randomWidth, randomHeight, 0);
         _startPosition = transform.position;
         var clamp = Mathf.Clamp(randomWidth, -1, 1);
-        var orientation = (transform.right * -clamp);
-        var force = orientation * _speed;
+        _startOrientation = (transform.right * -clamp);
+    }
+    [ContextMenu("Enemy Movement")]
+    private void EnemyMovement()
+    {
+        var force = _startOrientation * _speed;
         _rigidBody.AddForce(force);
     }
     public void CheckPoint()
