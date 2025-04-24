@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class Score : MonoBehaviour
 {
     [SerializeField] private int _score = 10;
@@ -9,5 +8,4 @@ public class Score : MonoBehaviour
     {
         ScoreManager.Instance.AddScore(_score);
     }
-
 }
