@@ -18,7 +18,7 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
-        ObjectPool.Instance.InitializePool(_bulletPrefab, 3);
+        ObjectPool.Instance.InitializePool(_bulletPrefab, 5);
     }
     [ContextMenu("Shot")]
     public void Shot(bool isEnemy = false, Vector2? position = null)

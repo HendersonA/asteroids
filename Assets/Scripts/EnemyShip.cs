@@ -10,26 +10,37 @@ public class EnemyShip : MonoBehaviour
     [SerializeField] private float _speed = 2f;
     [SerializeField] private ScreenWrap screenWrap;
     [SerializeField] private Gun _gun;
+    private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidBody;
+    private BoxCollider2D _boxCollider2D;
     private Vector2 _startOrientation;
     private float _buffer = 0.5f;
 
     private void Awake()
     {
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _rigidBody = GetComponent<Rigidbody2D>();
+        _boxCollider2D = GetComponent<BoxCollider2D>();
     }
     private void OnEnable()
     {
-        SetStartPosition();
         StartCoroutine(WaitToStartCoroutine());
     }
     private void OnDisable()
     {
         StopAllCoroutines();
     }
+    private void ToggleEnable(bool isEnable)
+    {
+        _spriteRenderer.gameObject.SetActive(isEnable);
+        _boxCollider2D.enabled = isEnable;
+    }
     private IEnumerator WaitToStartCoroutine()
     {
+        ToggleEnable(false);
         yield return new WaitForSeconds(_secondsAppear);
+        SetStartPosition();
+        ToggleEnable(true);
         StartCoroutine(ShootRandomOverTime());
         EnemyMovement();
     }
@@ -53,6 +64,7 @@ public class EnemyShip : MonoBehaviour
         if (isOffScreen)
         {
             gameObject.SetActive(false);
+            WaveManager.Instance.EnemyDefeated();
         }
     }
     private bool IsOffScreen()

@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
 using static ObjectPool;
-using static UnityEngine.GraphicsBuffer;
 using Random = UnityEngine.Random;
 
-public class WaveManager : MonoBehaviour
+public class WaveManager : Singleton<WaveManager>
 {
     [Serializable]
     public struct WaveElement
