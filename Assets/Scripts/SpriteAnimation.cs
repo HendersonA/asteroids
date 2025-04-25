@@ -6,6 +6,7 @@ public class SpriteAnimation : MonoBehaviour
 {
     [SerializeField] private Sprite[] _sprites;
     private SpriteRenderer _spriteRenderer;
+    private Sprite _cachedSprite = null;
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -13,13 +14,14 @@ public class SpriteAnimation : MonoBehaviour
     public void StartAnimation() => StartCoroutine(SpriteAnimationCoroutine());
     private IEnumerator SpriteAnimationCoroutine()
     {
+        _cachedSprite = _spriteRenderer.sprite;
         for (int i = 0; i < _sprites.Length; i++)
         {
             var sprite = _sprites[i];
             _spriteRenderer.sprite = sprite;
             yield return new WaitForSeconds(.1f);
         }
-        _spriteRenderer.sprite = null;
+        _spriteRenderer.sprite = _cachedSprite;
         yield return new WaitForEndOfFrame();
     }
 }

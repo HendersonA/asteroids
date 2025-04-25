@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class LiveUI : MonoBehaviour
@@ -8,18 +7,17 @@ public class LiveUI : MonoBehaviour
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _contentTransform;
     [SerializeField] private Color _deathColor;
-    private List<GameObject> _liveIcons;
+    private List<GameObject> _liveIcons = new List<GameObject>();
     private Health _playerHealth;
     private void Start()
     {
-        _liveIcons = new List<GameObject>();
         _playerHealth = GameManager.PlayerTransform.GetComponent<Health>();
         SetLiveUI(_playerHealth.MaxLives);
-        _playerHealth.OnTakeDamage.AddListener(UpdateLiveUI);
+        _playerHealth.OnTakeDamage.AddListener((value)=>UpdateLiveUI());
     }
     private void SetLiveUI(int amount)
     {
-        for (int i = 0; i < amount; i++)
+        for (int i = 1; i < amount; i++)
         {
             var liveIcon = Instantiate(_prefab, _contentTransform);
             _liveIcons.Add(liveIcon);

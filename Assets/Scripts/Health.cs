@@ -4,8 +4,9 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour, IDamageable
 {
     [Header("Events")]
-    public UnityEvent OnTakeDamage;
-    public UnityEvent OnHealDamage;
+    public UnityEvent<int> OnStart;
+    public UnityEvent<int> OnTakeDamage;
+    public UnityEvent<int> OnHealDamage;
     public UnityEvent OnDeath;
 
     public bool IsDead { get; private set; }
@@ -20,6 +21,7 @@ public class Health : MonoBehaviour, IDamageable
     {
         _CurrentLive = MaxLives;
         IsDead = false;
+        OnStart?.Invoke(_CurrentLive);
     }
     public void TakeDamage(int value = 1)
     {
@@ -32,7 +34,7 @@ public class Health : MonoBehaviour, IDamageable
             return;
         }
         if (_CurrentLive > 0)
-            OnTakeDamage.Invoke();
+            OnTakeDamage.Invoke(_CurrentLive);
     }
     public void Heal(int value)
     {
@@ -44,7 +46,7 @@ public class Health : MonoBehaviour, IDamageable
             _CurrentLive = MaxLives;
 
         if (_CurrentLive >= 0)
-            OnHealDamage.Invoke();
+            OnHealDamage.Invoke(1);
     }
     [ContextMenu("Die")]
     public void Die()

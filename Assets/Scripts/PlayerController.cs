@@ -1,15 +1,12 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public static PlayerMovement Instance;
+    public static PlayerController Instance;
     [SerializeField] private float _maxSpeed = 100f;
     [SerializeField] private float thrust = 2f;
     [SerializeField] private float _rotationSpeed = 2f;
-    [Header("Effects")]
-    [SerializeField] private ParticleSystem _thursterFx;
-    [SerializeField] private ParticleSystem _fireFx;
     private Rigidbody2D _rigidBody;
     private Health _health;
     private Gun _gun;
