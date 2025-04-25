@@ -10,17 +10,18 @@ namespace Assets.Scripts
         [SerializeField] private float _secondsDestroy = 2f;
         private Collider2D _collider;
         private Rigidbody2D _rigidbody2D;
+        private LayerMask _layerMask;
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
         }
-        public void SetBullet(Transform startTransform, Vector2? direction = null)
+        public void SetBullet(LayerMask layerMask, Transform startTransform, Vector2 direction)
         {
+            _layerMask = layerMask;
             this.transform.position = startTransform.position; 
             this.transform.rotation = startTransform.rotation;
-            var newDirection = direction == null ? -this.transform.up : direction;
-            _rigidbody2D.AddForce(newDirection.Value * _speed);
+            _rigidbody2D.AddForce(direction * _speed);
         }
         private IEnumerator AutoDestroyCoroutine()
         {
@@ -45,7 +46,8 @@ namespace Assets.Scripts
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out IDamageable damageable))
+            if (collision.TryGetComponent(out IDamageable damageable) &&
+            (_layerMask.value & (1 << collision.gameObject.layer)) != 0)
             {
                 gameObject.SetActive(false);
                 damageable.TakeDamage();

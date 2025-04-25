@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 624916408563495516, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 665569793519981559, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -117,9 +121,21 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9037714820187465018, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
+      propertyPath: _fireRate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037714820187465018, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
       propertyPath: _bulletPrefab
       value: 
       objectReference: {fileID: 7307848360795196679, guid: dc59d69d0af2de247bdbfdf0d99c9708, type: 3}
+    - target: {fileID: 9037714820187465018, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
+      propertyPath: _firePrecision
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037714820187465018, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
+      propertyPath: _hitMask.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8355350715351574875, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
     - {fileID: 7850227552476888169, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
@@ -171,7 +187,6 @@ MonoBehaviour:
   _secondsAppear: 3
   _speed: 150
   screenWrap: {fileID: 6122315104465491482}
-  _firePrecision: 50
   _gun: {fileID: 4408189111406037305}
 --- !u!114 &9094932711142396531
 MonoBehaviour:

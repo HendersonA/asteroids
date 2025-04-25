@@ -12,11 +12,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private ParticleSystem _fireFx;
     private Rigidbody2D _rigidBody;
     private Health _health;
+    private Gun _gun;
     private void Awake()
     {
         Instance = this;
         _rigidBody = GetComponent<Rigidbody2D>();
         _health = GetComponent<Health>();
+        _gun = GetComponent<Gun>();
     }
     private void Start()
     {
@@ -25,6 +27,10 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            _gun.Shot();
+        }
         if (Input.GetKey(KeyCode.UpArrow))
         {
             var force = -transform.up * thrust * Time.deltaTime;

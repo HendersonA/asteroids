@@ -159,6 +159,9 @@ MonoBehaviour:
         m_CallState: 2
   _fireRate: 1
   _bulletPrefab: {fileID: 7307848360795196679, guid: dc59d69d0af2de247bdbfdf0d99c9708, type: 3}
+  _hitMask:
+    serializedVersion: 2
+    m_Bits: 320
   _muzzlePosition: {fileID: 7837059807175170764}
   _muzzleFlash: {fileID: 5054885288196256116}
   _muzzleSprites:
