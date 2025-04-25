@@ -128,10 +128,10 @@ MonoBehaviour:
   _maxSpeed: 3
   thrust: 200
   _rotationSpeed: 0.75
-  _blinkColor: {r: 0, g: 0, b: 0, a: 0}
+  _blinkColor: {r: 1, g: 1, b: 1, a: 0.09803922}
   blinkDuration: 0.1
   blinkCount: 6
-  _destroyAnimation: {fileID: 0}
+  _destroyAnimation: {fileID: 5010951663970492960}
 --- !u!114 &9037714820187465018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,12 +159,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _firePrecision: 100
-  _fireRate: 0.7
-  _bulletPrefab: {fileID: 7307848360795196679, guid: dc59d69d0af2de247bdbfdf0d99c9708, type: 3}
-  _hitMask:
-    serializedVersion: 2
-    m_Bits: 320
+  _gunSettings: {fileID: 11400000, guid: 4bb1de40eaab8c34996d031f16632104, type: 2}
   _muzzlePosition: {fileID: 7837059807175170764}
   _muzzleFlash: {fileID: 5054885288196256116}
   _muzzleSprites:
@@ -199,13 +194,37 @@ MonoBehaviour:
       m_Calls: []
   OnTakeDamage:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8355350715351574875}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: Revive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnHealDamage:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8355350715351574875}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: DestroyShip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <MaxLives>k__BackingField: 3
   <_CurrentLive>k__BackingField: 0
 --- !u!1 &2746119405136896147
@@ -354,6 +373,7 @@ GameObject:
   - component: {fileID: 7709726806595594156}
   - component: {fileID: 665569793519981559}
   - component: {fileID: 8252703542971508062}
+  - component: {fileID: 5010951663970492960}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -461,6 +481,27 @@ MonoBehaviour:
   _onVisible:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5010951663970492960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711292585137477062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f05a2d6bb48b8dc448db67aa2e8f845a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sprites:
+  - {fileID: -5197271548307897853, guid: caea6f31f87f9204684859176bdda3c1, type: 3}
+  - {fileID: 5986030973748356752, guid: caea6f31f87f9204684859176bdda3c1, type: 3}
+  - {fileID: -5600206312213581617, guid: caea6f31f87f9204684859176bdda3c1, type: 3}
+  - {fileID: 3815954189206336483, guid: caea6f31f87f9204684859176bdda3c1, type: 3}
+  - {fileID: -3690502768834906923, guid: caea6f31f87f9204684859176bdda3c1, type: 3}
+  - {fileID: -3806839202968226997, guid: caea6f31f87f9204684859176bdda3c1, type: 3}
+  - {fileID: 7788287979965792003, guid: caea6f31f87f9204684859176bdda3c1, type: 3}
+  - {fileID: 497560801652076451, guid: caea6f31f87f9204684859176bdda3c1, type: 3}
 --- !u!1 &5020655478295237010
 GameObject:
   m_ObjectHideFlags: 0

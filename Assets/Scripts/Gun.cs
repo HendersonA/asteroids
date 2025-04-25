@@ -6,10 +6,7 @@ using static ObjectPool;
 public class Gun : MonoBehaviour
 {
     [SerializeField] private UnityEvent _onShot;
-    [SerializeField, Range(0, 100)] private int _firePrecision = 100;
-    [SerializeField] private float _fireRate = 1f;
-    [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private LayerMask _hitMask;
+    [SerializeField] private GunSettings _gunSettings;
     [Header("Muzzle")]
     [SerializeField] private Transform _muzzlePosition;
     [SerializeField] private SpriteRenderer _muzzleFlash;
@@ -18,13 +15,13 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
-        ObjectPool.Instance.InitializePool(_bulletPrefab, 5);
+        ObjectPool.Instance.InitializePool(_gunSettings.BulletPrefab, 5);
     }
     [ContextMenu("Shot")]
     public void Shot(bool isEnemy = false, Vector2? position = null)
     {
         if (Time.time <= _nextfireTime) return;
-        _nextfireTime = Time.time + _fireRate;
+        _nextfireTime = Time.time + _gunSettings.FireRate;
         var bullet = SpawnFromPool();
         _onShot?.Invoke();
         bullet.SetActive(true); 
@@ -32,13 +29,13 @@ public class Gun : MonoBehaviour
         var shotPrecision = SetPrecision(newDirection.Value);
         if(isEnemy)
             shotPrecision = (shotPrecision - transform.position).normalized;
-        bullet.GetComponent<Bullet>().SetBullet(_hitMask, _muzzlePosition, shotPrecision);
+        bullet.GetComponent<Bullet>().SetBullet(_gunSettings.HitMask, _muzzlePosition, shotPrecision);
     }
     private GameObject SpawnFromPool()
     {
-        if (_bulletPrefab != null)
+        if (_gunSettings.BulletPrefab != null)
         {
-            GameObject bulletObject = ObjectPool.Instance.Get(_bulletPrefab);
+            GameObject bulletObject = ObjectPool.Instance.Get(_gunSettings.BulletPrefab);
             return bulletObject;
         }
         else
@@ -47,7 +44,7 @@ public class Gun : MonoBehaviour
     }
     private Vector3 SetPrecision(Vector2 position)
     {
-        float maxDeviation = Mathf.Lerp(5f, 0f, _firePrecision / 100f); 
+        float maxDeviation = Mathf.Lerp(5f, 0f, _gunSettings.FirePrecision / 100f); 
         Vector2 deviation = new Vector3(
            Random.Range(-maxDeviation, maxDeviation),
            Random.Range(-maxDeviation, maxDeviation));

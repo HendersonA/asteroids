@@ -133,6 +133,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9037714820187465018, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
+      propertyPath: _gunSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 73027170f9d106a40bfe637d6824ca6f, type: 2}
+    - target: {fileID: 9037714820187465018, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
       propertyPath: _muzzleFlash
       value: 
       objectReference: {fileID: 0}
