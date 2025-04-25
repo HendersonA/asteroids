@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -28,6 +29,18 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         SetEventsList();
+        ObjectPool.Instance.Clear();
+    }
+    public void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            Application.Quit();
+        }
+        if (Input.GetKeyUp(KeyCode.Return))
+        {
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+        }
     }
     public static void SetEventsList()
     {
