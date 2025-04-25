@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8252703542971508062, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
       propertyPath: _onInvisible.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChangePosition
+      value: WrapAroundScreen
       objectReference: {fileID: 0}
     - target: {fileID: 8252703542971508062, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
       propertyPath: _onInvisible.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -123,6 +123,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 8355350715351574875, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
     - {fileID: 7850227552476888169, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
+    - {fileID: 1700868296786584219, guid: 7e29fc39392af3f4d9da0fa1eda3492e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -171,7 +172,6 @@ MonoBehaviour:
   _speed: 150
   screenWrap: {fileID: 6122315104465491482}
   _firePrecision: 50
-  _fireRate: 1
   _gun: {fileID: 4408189111406037305}
 --- !u!114 &9094932711142396531
 MonoBehaviour:
@@ -218,7 +218,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <MaxLives>k__BackingField: 3
+  <MaxLives>k__BackingField: 1
   <_CurrentLive>k__BackingField: 0
 --- !u!114 &6122315104465491482
 MonoBehaviour:

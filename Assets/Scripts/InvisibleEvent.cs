@@ -8,6 +8,7 @@ public class InvisibleEvent : MonoBehaviour
 
     private void OnBecameInvisible()
     {
+        Debug.Log($"{transform.parent.name} saiu da tela");
         _onInvisible?.Invoke();
     }
     private void OnBecameVisible()

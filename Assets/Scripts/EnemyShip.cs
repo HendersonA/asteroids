@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.LightTransport;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class EnemyShip : MonoBehaviour
@@ -10,8 +13,9 @@ public class EnemyShip : MonoBehaviour
     [SerializeField, Range(0, 100)] private int _firePrecision = 100;
     [SerializeField] private Gun _gun;
     private Rigidbody2D _rigidBody;
-    private Vector2 _startPosition;
     private Vector2 _startOrientation;
+    private float _buffer = 0.5f;
+
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
@@ -36,7 +40,6 @@ public class EnemyShip : MonoBehaviour
         var randomHeight = Random.Range(-screenWrap._screenHeight, screenWrap._screenHeight);
         var randomWidth = Random.Range(0f, 1f) <= .5f ? screenWrap._screenWidth : -screenWrap._screenWidth;
         transform.position = new Vector3(randomWidth, randomHeight, 0);
-        _startPosition = transform.position;
         var clamp = Mathf.Clamp(randomWidth, -1, 1);
         _startOrientation = (transform.right * -clamp);
     }
@@ -48,10 +51,16 @@ public class EnemyShip : MonoBehaviour
     }
     public void CheckPoint()
     {
-        if ((int)transform.position.x == (int)_startPosition.x) //TODO Corrigir
+        var isOffScreen = IsOffScreen();
+        if (isOffScreen)
         {
             gameObject.SetActive(false);
         }
+    }
+    private bool IsOffScreen()
+    {
+        return transform.position.x < -screenWrap._screenWidth + _buffer ||
+           transform.position.x > screenWrap._screenWidth - _buffer;
     }
     #region Gun
     public IEnumerator ShootRandomOverTime()
@@ -60,6 +69,7 @@ public class EnemyShip : MonoBehaviour
         {
             if (PlayerMovement.Instance != null)
             {
+                yield return new WaitForSeconds(1f);
                 var direction = DetectionPrecision(PlayerMovement.Instance.transform);
                 _gun.Shot(direction);
             }
