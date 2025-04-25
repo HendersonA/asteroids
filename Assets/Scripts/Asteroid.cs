@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
+    [SerializeField] private int _amountFragments;
+    [SerializeField] private GameObject _asteroidPrefab;
+
     [SerializeField] private float _speedMin = 1f;
     [SerializeField] private float _speedMax = 2f;
     [SerializeField] private float _speedRotationMin = 1f;
@@ -20,6 +23,10 @@ public class Asteroid : MonoBehaviour
         _damageable.FullRestore();
         SetAsteroidMovement();
     }
+    private void OnDisable()
+    {
+        SpawnFragments();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out IDamageable damageable) &&
@@ -27,6 +34,19 @@ public class Asteroid : MonoBehaviour
         {
             damageable.TakeDamage();
         }
+    }
+    private void SpawnFragments()
+    {
+        for (int i = 0; i < _amountFragments; i++)
+        {
+            GameObject fragment = ObjectPool.Instance.Get(_asteroidPrefab);
+            fragment.transform.position = this.transform.position;
+            WaveManager.Instance.RegisterEnemy();
+        }
+    }
+    public void RemoveFromWave()
+    {
+        WaveManager.Instance.EnemyDefeated();
     }
     [ContextMenu("SetAsteroidMovement")]
     private void SetAsteroidMovement()

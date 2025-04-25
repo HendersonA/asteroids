@@ -123,6 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21706dbc929b05c4c811738e6857cea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _amountFragments: 3
+  _asteroidPrefab: {fileID: 7576488801957014849, guid: 54894009b9faba34eb5d57b208726dff, type: 3}
   _speedMin: 1.5
   _speedMax: 2
   _speedRotationMin: 3
@@ -154,6 +156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea62e3bdd243994fbebf8ff4227a39d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnStart:
+    m_PersistentCalls:
+      m_Calls: []
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -201,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3d50fc5f187c94c993bec233c5824e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _score: 10
+  _score: 15
 --- !u!1 &8732985815660139126
 GameObject:
   m_ObjectHideFlags: 0
