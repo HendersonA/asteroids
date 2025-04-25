@@ -3,16 +3,12 @@ using UnityEngine;
 public class ScreenWrap : MonoBehaviour
 {
     private Camera _mainCamera;
-    private SpriteRenderer spriteRenderer;
-    private Vector2 spriteExtent;
     public float _screenHeight { get; private set; }
     public float _screenWidth { get; private set; }
 
     private void Start()
     {
         _mainCamera = GameManager.MainCamera;
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        spriteExtent = spriteRenderer.bounds.extents;
         UpdateCameraBounds();
     }
     private void UpdateCameraBounds()
@@ -22,32 +18,36 @@ public class ScreenWrap : MonoBehaviour
     }
     public void WrapAroundScreen()
     {
-        Vector3 pos = transform.position;
+        Vector3 viewportPos = _mainCamera.WorldToViewportPoint(transform.position);
         bool wrapped = false;
 
-        if (pos.x > _screenWidth + spriteExtent.x)
+        if (viewportPos.x > 1)
         {
-            pos.x = -_screenWidth - spriteExtent.x;
+            viewportPos.x = 0;
             wrapped = true;
         }
-        else if (pos.x < -_screenWidth - spriteExtent.x)
+        else if (viewportPos.x < 0)
         {
-            pos.x = _screenWidth + spriteExtent.x;
+            viewportPos.x = 1;
             wrapped = true;
         }
 
-        if (pos.y > _screenHeight + spriteExtent.y)
+        if (viewportPos.y > 1)
         {
-            pos.y = -_screenHeight - spriteExtent.y;
+            viewportPos.y = 0;
             wrapped = true;
         }
-        else if (pos.y < -_screenHeight - spriteExtent.y)
+        else if (viewportPos.y < 0)
         {
-            pos.y = _screenHeight + spriteExtent.y;
+            viewportPos.y = 1;
             wrapped = true;
         }
 
         if (wrapped)
-            transform.position = pos;
+        {
+            Vector3 newPos = _mainCamera.ViewportToWorldPoint(viewportPos);
+            newPos.z = transform.position.z;
+            transform.position = newPos;
+        }
     }
 }
