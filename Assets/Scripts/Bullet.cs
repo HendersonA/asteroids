@@ -47,8 +47,8 @@ namespace Assets.Scripts
         {
             if (collision.TryGetComponent(out IDamageable damageable))
             {
-                damageable.TakeDamage();
                 gameObject.SetActive(false);
+                damageable.TakeDamage();
             }
         }
     }

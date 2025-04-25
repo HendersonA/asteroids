@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using static ObjectPool;
+using static UnityEngine.GraphicsBuffer;
+using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour
 {
@@ -58,6 +60,7 @@ public class WaveManager : MonoBehaviour
                 poolable = poolObject.AddComponent<Poolable>();
                 poolable.Prefab = prefabObject;
             }
+            poolObject.transform.position = RandomPosition();
             poolObject.SetActive(true);
         }
         return poolObject;
@@ -72,5 +75,17 @@ public class WaveManager : MonoBehaviour
         if (activeEnemies <= 0)
             SpawnWave();
     }
-    //TODO Aleatoriedade da posição
+    private Vector2 RandomPosition()
+    {  
+        float angle = Random.Range(0f, Mathf.PI * 2f);
+
+        var playerPosition = new Vector2(
+            GameManager.PlayerTransform.position.x,
+            GameManager.PlayerTransform.position.y);
+
+        float distance = Random.Range(-playerPosition.x * 2, playerPosition.y * 2);
+        Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+
+        return playerPosition + offset;
+    }
 }
