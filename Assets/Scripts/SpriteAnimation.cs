@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class SpriteAnimation : MonoBehaviour
 {
+    public event Action OnComplete;
     [SerializeField] private Sprite[] _sprites;
     private SpriteRenderer _spriteRenderer;
     private Sprite _cachedSprite = null;
@@ -23,5 +25,6 @@ public class SpriteAnimation : MonoBehaviour
         }
         _spriteRenderer.sprite = _cachedSprite;
         yield return new WaitForEndOfFrame();
+        OnComplete?.Invoke();
     }
 }

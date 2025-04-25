@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
@@ -7,6 +8,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _maxSpeed = 100f;
     [SerializeField] private float thrust = 2f;
     [SerializeField] private float _rotationSpeed = 2f;
+    [Header("DamageFX")]
+    [SerializeField] private Color _blinkColor;
+    [SerializeField] private float blinkDuration = 0.1f;
+    [SerializeField] private int blinkCount = 6;
+    [SerializeField] private SpriteAnimation _destroyAnimation;
     private Rigidbody2D _rigidBody;
     private Health _health;
     private Gun _gun;
@@ -24,6 +30,11 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        GameControl();
+    }
+    private void GameControl()
+    {
+        if (_health.IsDead) return;
         if (Input.GetKeyUp(KeyCode.Space))
         {
             _gun.Shot();
@@ -44,6 +55,33 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.Rotate(0, 0.0f, -_rotationSpeed + transform.position.z, Space.Self);
+        }
+    }
+    public void DestroyShip()
+    {
+        _destroyAnimation.OnComplete += ()=> gameObject.SetActive(false);
+        _destroyAnimation.StartAnimation();
+        _destroyAnimation.OnComplete -= () => gameObject.SetActive(false);
+    }
+    public void Revive() => StartCoroutine(ReviveCoroutine());
+    private IEnumerator ReviveCoroutine()
+    {
+        _health.IsImmortal = true;
+        yield return BlinkColor();
+        _health.IsImmortal = false;
+    }
+    [ContextMenu("Blink")]
+    private void Blink() => StartCoroutine(BlinkColor());
+    private IEnumerator BlinkColor()
+    {
+        var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        var originalColor = spriteRenderer.color;
+        for (int i = 0; i < blinkCount; i++)
+        {
+            spriteRenderer.color = _blinkColor;
+            yield return new WaitForSeconds(blinkDuration);
+            spriteRenderer.color = originalColor;
+            yield return new WaitForSeconds(blinkDuration);
         }
     }
 }

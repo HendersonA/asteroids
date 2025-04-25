@@ -10,6 +10,7 @@ public class Health : MonoBehaviour, IDamageable
     public UnityEvent OnDeath;
 
     public bool IsDead { get; private set; }
+    public bool IsImmortal { get; set; } = false;
     [field: SerializeField] public int MaxLives { get; set; }
     [field: SerializeField] public int _CurrentLive { get; private set; }
 

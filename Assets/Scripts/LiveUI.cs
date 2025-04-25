@@ -17,7 +17,7 @@ public class LiveUI : MonoBehaviour
     }
     private void SetLiveUI(int amount)
     {
-        for (int i = 1; i < amount; i++)
+        for (int i = 0; i < amount; i++)
         {
             var liveIcon = Instantiate(_prefab, _contentTransform);
             _liveIcons.Add(liveIcon);
