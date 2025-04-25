@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public static Action[] GameEvents;
     public static Transform PlayerTransform
     {
         get
@@ -21,5 +23,20 @@ public class GameManager : Singleton<GameManager>
         }
         set { _mainCamera = value; }
     }
-    private static Camera _mainCamera;
+    private static Camera _mainCamera; 
+    protected override void Awake()
+    {
+        base.Awake();
+        SetEventsList();
+    }
+    public static void SetEventsList()
+    {
+        GameEvents = new Action[Enum.GetValues(typeof(GameEvent)).Length];
+    }
+}
+[System.Serializable]
+public enum GameEvent
+{
+    GameStart,
+    GameFail,
 }

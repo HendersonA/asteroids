@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class LiveUI : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _onGameOver;
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _contentTransform;
     [SerializeField] private Color _deathColor;
@@ -30,10 +29,5 @@ public class LiveUI : MonoBehaviour
     {
         var iconRenderer = _liveIcons[_playerHealth._CurrentLive].GetComponent<Image>();
         iconRenderer.color = _deathColor;
-        if (_playerHealth.IsDead)
-        {
-            _onGameOver?.Invoke();
-            return;
-        }
     }
 }

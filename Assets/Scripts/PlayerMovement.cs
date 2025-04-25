@@ -8,11 +8,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float thrust = 2f;
     [SerializeField] private float _rotationSpeed = 2f;
     private Rigidbody2D _rigidBody;
-
+    private Health _health;
     private void Awake()
     {
         Instance = this;
         _rigidBody = GetComponent<Rigidbody2D>();
+        _health = GetComponent<Health>();
+    }
+    private void Start()
+    {
+        GameManager.GameEvents[GameEvent.GameStart.GetHashCode()]?.Invoke();
+        _health.OnDeath.AddListener(() => GameManager.GameEvents[GameEvent.GameFail.GetHashCode()]?.Invoke());
     }
     private void Update()
     {
