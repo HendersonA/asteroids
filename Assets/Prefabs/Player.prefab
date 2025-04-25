@@ -145,9 +145,9 @@ MonoBehaviour:
   _onShot:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9037714820187465018}
-        m_TargetAssemblyTypeName: Gun, Assembly-CSharp
-        m_MethodName: MuzzleFlashFX
+      - m_Target: {fileID: 1938107744224306332}
+        m_TargetAssemblyTypeName: SpriteAnimation, Assembly-CSharp
+        m_MethodName: StartAnimation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -157,6 +157,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _firePrecision: 100
   _fireRate: 1
   _bulletPrefab: {fileID: 7307848360795196679, guid: dc59d69d0af2de247bdbfdf0d99c9708, type: 3}
   _hitMask:
@@ -244,6 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1300715973557383249}
   - component: {fileID: 5054885288196256116}
+  - component: {fileID: 1938107744224306332}
   m_Layer: 0
   m_Name: MuzzleFX
   m_TagString: Untagged
@@ -321,6 +323,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1938107744224306332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3001455983086086371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f05a2d6bb48b8dc448db67aa2e8f845a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sprites:
+  - {fileID: 3609535027732880483, guid: 8edb0e0b80de2524f8d54c5f7891a645, type: 3}
+  - {fileID: -7409534669231249031, guid: 8edb0e0b80de2524f8d54c5f7891a645, type: 3}
 --- !u!1 &4711292585137477062
 GameObject:
   m_ObjectHideFlags: 0
