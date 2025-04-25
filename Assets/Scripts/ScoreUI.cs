@@ -16,7 +16,7 @@ public class ScoreUI : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Pontos: " + currentScore;
+            scoreText.text = currentScore.ToString("000");
         }
         else
         {
