@@ -68,7 +68,7 @@ public class EnemyShip : MonoBehaviour
             if (PlayerMovement.Instance != null)
             {
                 yield return new WaitForSeconds(1f);
-                _gun.Shot(PlayerMovement.Instance.transform.position);
+                _gun.Shot(true, PlayerMovement.Instance.transform.position);
             }
             yield return null;
         }

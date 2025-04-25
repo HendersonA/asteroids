@@ -1,7 +1,7 @@
 using Assets.Scripts;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 using static ObjectPool;
 
 public class Gun : MonoBehaviour
@@ -18,12 +18,23 @@ public class Gun : MonoBehaviour
     private float _nextfireTime = 0f;
 
     [ContextMenu("Shot")]
-    public void Shot(Vector2? position = null)
+    public void Shot(bool isEnemy = false, Vector2? position = null)
+    {
+        if (Time.time <= _nextfireTime) return;
+        _nextfireTime = Time.time + _fireRate;
+        var bullet = SpawnFromPool();
+        _onShot?.Invoke();
+        bullet.SetActive(true); 
+        var newDirection = position == null ? -this.transform.up : position;
+        var shotPrecision = SetPrecision(newDirection.Value);
+        if(isEnemy)
+            shotPrecision = (shotPrecision - transform.position).normalized;
+        bullet.GetComponent<Bullet>().SetBullet(_hitMask, _muzzlePosition, shotPrecision);
+    }
+    private GameObject SpawnFromPool()
     {
         if (_bulletPrefab != null)
         {
-            if (Time.time <= _nextfireTime) return;
-            _nextfireTime = Time.time + _fireRate;
             GameObject bulletObject = ObjectPool.Instance.Get(_bulletPrefab);
 
             if (bulletObject != null)
@@ -36,38 +47,22 @@ public class Gun : MonoBehaviour
                     poolable = bulletObject.AddComponent<Poolable>();
                     poolable.Prefab = _bulletPrefab;
                 }
-                _onShot?.Invoke();
-                bulletObject.SetActive(true); 
-                var newDirection = position == null ? -this.transform.up : position;
-                var shotPrecision = GetPrecision(newDirection.Value);
-                bulletObject.GetComponent<Bullet>().SetBullet(_hitMask, _muzzlePosition, shotPrecision);
             }
+            return bulletObject;
         }
         else
         {
             Debug.LogError("Bullet Prefab not assigned in the Shooter script.");
         }
+        return null;
     }
-    private Vector3 GetPrecision(Vector2 position)
+    private Vector3 SetPrecision(Vector2 position)
     {
-        float maxDesvio = Mathf.Lerp(5f, 0f, _firePrecision / 100f); 
-        Vector2 desvio = new Vector3(
-           Random.Range(-maxDesvio, maxDesvio),
-           Random.Range(-maxDesvio, maxDesvio));
-        Vector3 pontoDeMira = position + desvio;
-        Vector3 direcao = (pontoDeMira - transform.position).normalized;
-        return direcao;
-    }
-    public void MuzzleFlashFX() => StartCoroutine(MuzzleFlashCoroutine());
-    private IEnumerator MuzzleFlashCoroutine()
-    {
-        for (int i = 0; i < _muzzleSprites.Length; i++)
-        {
-            var sprite = _muzzleSprites[i];
-            _muzzleFlash.sprite = sprite;
-            yield return new WaitForSeconds(.1f);
-        }
-        _muzzleFlash.sprite = null;
-        yield return new WaitForEndOfFrame();
+        float maxDeviation = Mathf.Lerp(5f, 0f, _firePrecision / 100f); 
+        Vector2 deviation = new Vector3(
+           Random.Range(-maxDeviation, maxDeviation),
+           Random.Range(-maxDeviation, maxDeviation));
+        Vector3 target = position + deviation;
+        return target;
     }
 }
