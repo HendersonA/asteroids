@@ -7,14 +7,17 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float _speedRotationMin = 1f;
     [SerializeField] private float _speeRotationdMax = 2f;
     [SerializeField] private LayerMask _layerMask;
+    private IDamageable _damageable;
     private Rigidbody2D _rigidBody;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+        _damageable = GetComponent<IDamageable>();
     }
-    private void Start()
+    private void OnEnable()
     {
+        _damageable.FullRestore();
         SetAsteroidMovement();
     }
     private void OnTriggerEnter2D(Collider2D collision)

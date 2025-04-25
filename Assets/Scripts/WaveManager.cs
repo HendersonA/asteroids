@@ -39,6 +39,7 @@ public class WaveManager : MonoBehaviour
                 var spawnedObject = SpawnFromPool(element.Prefab);
                 RegisterEnemy();
                 spawnedObject.TryGetComponent(out Health health);
+                health.OnDeath.RemoveListener(EnemyDefeated);
                 health.OnDeath.AddListener(EnemyDefeated);
             }
         }
