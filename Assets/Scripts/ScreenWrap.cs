@@ -1,40 +1,62 @@
 using UnityEngine;
 
-public class ScreenWrap: MonoBehaviour
+public class ScreenWrap : MonoBehaviour
 {
-    public float _screenWidth { get; private set; }
-    public float _screenHeight { get; private set; }
-    private float _objectRadius;
     private Camera _mainCamera;
-    private Renderer _renderer;
+    public float _screenHeight { get; private set; }
+    public float _screenWidth { get; private set; }
 
-    private void Awake()
-    {
-        _renderer = GetComponentInChildren<Renderer>();
-    }
     private void Start()
     {
-        _mainCamera = Camera.main;
+        _mainCamera = GameManager.MainCamera;
+
+        UpdateCameraBounds();
+    }
+    private void Update()
+    {
+        if (CameraSizeChanged())
+            UpdateCameraBounds();
+
+        WrapAroundScreen();
+    }
+    private bool CameraSizeChanged()
+    {
+        return _screenHeight != _mainCamera.orthographicSize;
+    }
+
+    private void UpdateCameraBounds()
+    {
         _screenHeight = _mainCamera.orthographicSize;
-        _screenWidth = _screenHeight * _mainCamera.aspect;
-        if (_renderer != null)
-            _objectRadius = Mathf.Max(_renderer.bounds.extents.x, _renderer.bounds.extents.y);
-        else
-            _objectRadius = 0.5f;
+        _screenWidth = _mainCamera.aspect * _screenHeight;
     }
-    public void ChangePosition()
+    private void WrapAroundScreen()
     {
-        Vector3 position = transform.position;
-        position.x = Wrap(position.x, -_screenWidth - _objectRadius, _screenWidth + _objectRadius);
-        position.y = Wrap(position.y, -_screenHeight - _objectRadius, _screenHeight + _objectRadius);
-        transform.position = position;
-    }
-    private float Wrap(float value, float min, float max)
-    {
-        if (value > max)
-            value = min;
-        else if (value < min)
-            value = max;
-        return value;
+        Vector3 pos = transform.position;
+        bool wrapped = false;
+
+        if (pos.x > _screenWidth)
+        {
+            pos.x = -_screenWidth;
+            wrapped = true;
+        }
+        else if (pos.x < -_screenWidth)
+        {
+            pos.x = _screenWidth;
+            wrapped = true;
+        }
+
+        if (pos.y > _screenHeight)
+        {
+            pos.y = -_screenHeight;
+            wrapped = true;
+        }
+        else if (pos.y < -_screenHeight)
+        {
+            pos.y = _screenHeight;
+            wrapped = true;
+        }
+
+        if (wrapped)
+            transform.position = pos;
     }
 }
