@@ -8,7 +8,6 @@ public class EnemyShip : MonoBehaviour
     [SerializeField] private float _speed = 2f;
     [SerializeField] private ScreenWrap screenWrap;
     [SerializeField, Range(0, 100)] private int _firePrecision = 100;
-    [SerializeField] private float _fireRate = 1f;
     [SerializeField] private Gun _gun;
     private Rigidbody2D _rigidBody;
     private Vector2 _startPosition;
@@ -64,7 +63,7 @@ public class EnemyShip : MonoBehaviour
                 var direction = DetectionPrecision(PlayerMovement.Instance.transform);
                 _gun.Shot(direction);
             }
-            yield return new WaitForSeconds(_fireRate);
+            yield return null;
         }
     }
     private Vector3 DetectionPrecision(Transform target)

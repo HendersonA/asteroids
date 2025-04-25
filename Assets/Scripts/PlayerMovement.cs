@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _maxSpeed = 100f;
     [SerializeField] private float thrust = 2f;
     [SerializeField] private float _rotationSpeed = 2f;
+    [Header("Effects")]
+    [SerializeField] private ParticleSystem _thursterFx;
+    [SerializeField] private ParticleSystem _fireFx;
     private Rigidbody2D _rigidBody;
     private Health _health;
     private void Awake()

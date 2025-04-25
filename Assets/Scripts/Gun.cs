@@ -1,12 +1,17 @@
 using Assets.Scripts;
+using System.Collections;
 using UnityEngine;
 using static ObjectPool;
 
 public class Gun : MonoBehaviour
 {
+    [SerializeField] private float _fireRate = 1f;
     [SerializeField] private GameObject _bulletPrefab;
+    [Header("Muzzle")]
     [SerializeField] private Transform _muzzlePosition;
-
+    [SerializeField] private SpriteRenderer _muzzleFlash;
+    [SerializeField] private Sprite[] _muzzleSprites;
+    private float _nextfireTime = 0f;
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space))
@@ -19,6 +24,8 @@ public class Gun : MonoBehaviour
     {
         if (_bulletPrefab != null)
         {
+            if (Time.time <= _nextfireTime) return;
+            _nextfireTime = Time.time + _fireRate;
             GameObject bulletObject = ObjectPool.Instance.Get(_bulletPrefab);
 
             if (bulletObject != null)
@@ -31,6 +38,7 @@ public class Gun : MonoBehaviour
                     poolable = bulletObject.AddComponent<Poolable>();
                     poolable.Prefab = _bulletPrefab;
                 }
+                StartCoroutine(MuzzleFlash());
                 bulletObject.SetActive(true);
                 bulletObject.GetComponent<Bullet>().SetBullet(_muzzlePosition, position);
             }
@@ -39,5 +47,16 @@ public class Gun : MonoBehaviour
         {
             Debug.LogError("Bullet Prefab not assigned in the Shooter script.");
         }
+    }
+    private IEnumerator MuzzleFlash()
+    {
+        for (int i = 0; i < _muzzleSprites.Length; i++)
+        {
+            var sprite = _muzzleSprites[i];
+            _muzzleFlash.sprite = sprite;
+            yield return new WaitForSeconds(.1f);
+        }
+        _muzzleFlash.sprite = null;
+        yield return new WaitForEndOfFrame();
     }
 }
