@@ -19,7 +19,6 @@ public class ObjectPool
     {
         _root = root;
     }
-
     public void InitializePool(GameObject prefab, int amount)
     {
         EnsurePoolExists(prefab);
@@ -31,7 +30,6 @@ public class ObjectPool
             _pools[prefab].Enqueue(obj);
         }
     }
-
     public GameObject Get(GameObject prefab)
     {
         EnsurePoolExists(prefab);
@@ -43,7 +41,6 @@ public class ObjectPool
         obj.SetActive(true);
         return obj;
     }
-
     public void Release(GameObject obj, GameObject prefab)
     {
         if (!_pools.ContainsKey(prefab)) return;
@@ -52,7 +49,21 @@ public class ObjectPool
         obj.transform.SetParent(_parents[prefab]);
         _pools[prefab].Enqueue(obj);
     }
+    public void Clear()
+    {
+        foreach (var queue in _pools.Values)
+        {
+            while (queue.Count > 0)
+            {
+                GameObject obj = queue.Dequeue();
+                if (obj != null)
+                    Object.Destroy(obj);
+            }
+        }
 
+        _pools.Clear();
+        _parents.Clear();
+    }
     private void EnsurePoolExists(GameObject prefab)
     {
         if (_pools.ContainsKey(prefab)) return;
@@ -65,14 +76,12 @@ public class ObjectPool
 
         _parents[prefab] = parent.transform;
     }
-
     private GameObject CreateNewObject(GameObject prefab)
     {
         GameObject obj = Object.Instantiate(prefab, _parents[prefab]);
         obj.AddComponent<PoolReturnHelper>().Setup(this, prefab);
         return obj;
     }
-
     private class PoolReturnHelper : MonoBehaviour
     {
         private ObjectPool _pool;
