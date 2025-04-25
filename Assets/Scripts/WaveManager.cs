@@ -48,22 +48,9 @@ public class WaveManager : MonoBehaviour
     }
     private GameObject SpawnFromPool(GameObject prefabObject)
     {
-        GameObject poolObject = ObjectPool.Instance.Get(prefabObject);
-
-        if (poolObject != null)
-        {
-            Poolable poolable = poolObject.GetComponent<Poolable>();
-            if (poolable != null)
-                poolable.Prefab = prefabObject;
-            else
-            {
-                poolable = poolObject.AddComponent<Poolable>();
-                poolable.Prefab = prefabObject;
-            }
-            poolObject.transform.position = RandomPosition();
-            poolObject.SetActive(true);
-        }
-        return poolObject;
+        GameObject newObject = ObjectPool.Instance.Get(prefabObject);
+        newObject.SetActive(true);
+        return newObject;
     }
     public void RegisterEnemy()
     {

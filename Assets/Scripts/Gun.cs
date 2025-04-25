@@ -1,7 +1,6 @@
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 using static ObjectPool;
 
 public class Gun : MonoBehaviour
@@ -17,6 +16,10 @@ public class Gun : MonoBehaviour
     [SerializeField] private Sprite[] _muzzleSprites;
     private float _nextfireTime = 0f;
 
+    private void Start()
+    {
+        ObjectPool.Instance.InitializePool(_bulletPrefab, 3);
+    }
     [ContextMenu("Shot")]
     public void Shot(bool isEnemy = false, Vector2? position = null)
     {
@@ -36,24 +39,10 @@ public class Gun : MonoBehaviour
         if (_bulletPrefab != null)
         {
             GameObject bulletObject = ObjectPool.Instance.Get(_bulletPrefab);
-
-            if (bulletObject != null)
-            {
-                Poolable poolable = bulletObject.GetComponent<Poolable>();
-                if (poolable != null)
-                    poolable.Prefab = _bulletPrefab;
-                else
-                {
-                    poolable = bulletObject.AddComponent<Poolable>();
-                    poolable.Prefab = _bulletPrefab;
-                }
-            }
             return bulletObject;
         }
         else
-        {
             Debug.LogError("Bullet Prefab not assigned in the Shooter script.");
-        }
         return null;
     }
     private Vector3 SetPrecision(Vector2 position)

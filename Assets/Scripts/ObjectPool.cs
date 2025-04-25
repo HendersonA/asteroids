@@ -1,101 +1,92 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour // Removendo o genérico aqui para simplificar a chamada do Shooter
+public class ObjectPool
 {
-    private Dictionary<GameObject, Queue<GameObject>> _pools = new Dictionary<GameObject, Queue<GameObject>>();
     private static ObjectPool _instance;
+    public static ObjectPool Instance => _instance ??= new ObjectPool();
 
-    public static ObjectPool Instance
+    private readonly Dictionary<GameObject, Queue<GameObject>> _pools = new();
+    private readonly Dictionary<GameObject, Transform> _parents = new();
+    private Transform _root;
+
+    private ObjectPool() { }
+
+    /// <summary>
+    /// Define um transform root para organizar os objetos na hierarquia.
+    /// </summary>
+    public void SetRoot(Transform root)
     {
-        get
-        {
-            if (_instance == null)
-            {
-                // Tenta encontrar uma instância existente na cena
-                _instance = FindObjectOfType<ObjectPool>();
-
-                // Se não existir, cria uma nova
-                if (_instance == null)
-                {
-                    GameObject poolObject = new GameObject("ObjectPool");
-                    _instance = poolObject.AddComponent<ObjectPool>();
-                }
-            }
-            return _instance;
-        }
-        private set => _instance = value;
+        _root = root;
     }
 
-    private void Awake()
+    public void InitializePool(GameObject prefab, int amount)
     {
-        if (_instance != null && _instance != this)
+        EnsurePoolExists(prefab);
+
+        for (int i = 0; i < amount; i++)
         {
-            Destroy(gameObject);
-            return;
+            GameObject obj = CreateNewObject(prefab);
+            obj.SetActive(false);
+            _pools[prefab].Enqueue(obj);
         }
-        _instance = this;
-        DontDestroyOnLoad(gameObject); // Opcional: manter o pool entre as cenas
     }
 
     public GameObject Get(GameObject prefab)
     {
-        if (prefab == null)
-        {
-            Debug.LogError("Prefab cannot be null.");
-            return null;
-        }
+        EnsurePoolExists(prefab);
 
-        if (!_pools.ContainsKey(prefab) || _pools[prefab].Count == 0)
-        {
-            // Se não houver pool para este prefab ou estiver vazio, instancia um novo
-            GameObject newObject = Instantiate(prefab);
-            newObject.SetActive(false);
-            // Adiciona um componente para rastrear a desativação e retornar a este pool específico
-            PoolReturner returner = newObject.AddComponent<PoolReturner>();
-            returner.Pool = this;
-            return newObject;
-        }
+        if (_pools[prefab].Count == 0)
+            return CreateNewObject(prefab);
 
-        GameObject pooledObject = _pools[prefab].Dequeue();
-        pooledObject.SetActive(true);
-        return pooledObject;
+        GameObject obj = _pools[prefab].Dequeue();
+        obj.SetActive(true);
+        return obj;
     }
 
-    public void Release(GameObject objectToRelease)
+    public void Release(GameObject obj, GameObject prefab)
     {
-        if (objectToRelease == null) return;
+        if (!_pools.ContainsKey(prefab)) return;
 
-        Poolable poolable = objectToRelease.GetComponent<Poolable>();
-        if (poolable != null && poolable.Prefab != null)
-        {
-            objectToRelease.SetActive(false);
-            if (!_pools.ContainsKey(poolable.Prefab))
-            {
-                _pools[poolable.Prefab] = new Queue<GameObject>();
-            }
-            _pools[poolable.Prefab].Enqueue(objectToRelease);
-        }
-        else
-        {
-            Debug.LogWarning($"Object {objectToRelease.name} released but does not have a Poolable component or its prefab is not set. It will be destroyed.");
-            Destroy(objectToRelease);
-        }
+        obj.SetActive(false);
+        obj.transform.SetParent(_parents[prefab]);
+        _pools[prefab].Enqueue(obj);
     }
 
-    // Componente auxiliar para identificar o prefab de origem e o pool
-    public class Poolable : MonoBehaviour
+    private void EnsurePoolExists(GameObject prefab)
     {
-        public GameObject Prefab { get; set; }
+        if (_pools.ContainsKey(prefab)) return;
+
+        _pools[prefab] = new Queue<GameObject>();
+
+        GameObject parent = new(prefab.name + "_Pool");
+        if (_root != null)
+            parent.transform.SetParent(_root);
+
+        _parents[prefab] = parent.transform;
     }
 
-    private class PoolReturner : MonoBehaviour
+    private GameObject CreateNewObject(GameObject prefab)
     {
-        public ObjectPool Pool { get; set; }
+        GameObject obj = Object.Instantiate(prefab, _parents[prefab]);
+        obj.AddComponent<PoolReturnHelper>().Setup(this, prefab);
+        return obj;
+    }
+
+    private class PoolReturnHelper : MonoBehaviour
+    {
+        private ObjectPool _pool;
+        private GameObject _prefab;
+
+        public void Setup(ObjectPool pool, GameObject prefab)
+        {
+            _pool = pool;
+            _prefab = prefab;
+        }
 
         private void OnDisable()
         {
-            Pool?.Release(gameObject);
+            _pool?.Release(gameObject, _prefab);
         }
     }
 }
