@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Asteroids
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class Bullet : MonoBehaviour

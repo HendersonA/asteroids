@@ -2,54 +2,57 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Singleton<GameManager>
+namespace Asteroids
 {
-    public static Action[] GameEvents;
-    public static Transform PlayerTransform
+    public class GameManager : Singleton<GameManager>
     {
-        get
+        public static Action[] GameEvents;
+        public static Transform PlayerTransform
         {
-            if (!_playerTransform) _playerTransform = GameObject.FindWithTag("Player").transform;
-            return _playerTransform;
+            get
+            {
+                if (!_playerTransform) _playerTransform = GameObject.FindWithTag("Player").transform;
+                return _playerTransform;
+            }
+            set { _playerTransform = value; }
         }
-        set { _playerTransform = value; }
-    }
-    private static Transform _playerTransform; 
-    public static Camera MainCamera
-    {
-        get
+        private static Transform _playerTransform;
+        public static Camera MainCamera
         {
-            if (!_mainCamera) _mainCamera = Camera.main;
-            return _mainCamera;
+            get
+            {
+                if (!_mainCamera) _mainCamera = Camera.main;
+                return _mainCamera;
+            }
+            set { _mainCamera = value; }
         }
-        set { _mainCamera = value; }
-    }
-    private static Camera _mainCamera; 
-    protected override void Awake()
-    {
-        base.Awake();
-        SetEventsList();
-        ObjectPool.Instance.Clear();
-    }
-    public void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Q))
+        private static Camera _mainCamera;
+        protected override void Awake()
         {
-            Application.Quit();
+            base.Awake();
+            SetEventsList();
+            ObjectPool.Instance.Clear();
         }
-        if (Input.GetKeyUp(KeyCode.Return))
+        public void Update()
         {
-            SceneManager.LoadScene(0, LoadSceneMode.Single);
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                Application.Quit();
+            }
+            if (Input.GetKeyUp(KeyCode.Return))
+            {
+                SceneManager.LoadScene(0, LoadSceneMode.Single);
+            }
+        }
+        public static void SetEventsList()
+        {
+            GameEvents = new Action[Enum.GetValues(typeof(GameEvent)).Length];
         }
     }
-    public static void SetEventsList()
+    [System.Serializable]
+    public enum GameEvent
     {
-        GameEvents = new Action[Enum.GetValues(typeof(GameEvent)).Length];
+        GameStart,
+        GameFail,
     }
-}
-[System.Serializable]
-public enum GameEvent
-{
-    GameStart,
-    GameFail,
 }

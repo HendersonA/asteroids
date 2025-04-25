@@ -1,53 +1,56 @@
 using UnityEngine;
 
-public class ScreenWrap : MonoBehaviour
+namespace Asteroids
 {
-    private Camera _mainCamera;
-    public float _screenHeight { get; private set; }
-    public float _screenWidth { get; private set; }
-
-    private void Start()
+    public class ScreenWrap : MonoBehaviour
     {
-        _mainCamera = GameManager.MainCamera;
-        UpdateCameraBounds();
-    }
-    private void UpdateCameraBounds()
-    {
-        _screenHeight = _mainCamera.orthographicSize;
-        _screenWidth = _mainCamera.aspect * _screenHeight;
-    }
-    public void WrapAroundScreen()
-    {
-        Vector3 viewportPos = _mainCamera.WorldToViewportPoint(transform.position);
-        bool wrapped = false;
+        private Camera _mainCamera;
+        public float _screenHeight { get; private set; }
+        public float _screenWidth { get; private set; }
 
-        if (viewportPos.x > 1)
+        private void Start()
         {
-            viewportPos.x = 0;
-            wrapped = true;
+            _mainCamera = GameManager.MainCamera;
+            UpdateCameraBounds();
         }
-        else if (viewportPos.x < 0)
+        private void UpdateCameraBounds()
         {
-            viewportPos.x = 1;
-            wrapped = true;
+            _screenHeight = _mainCamera.orthographicSize;
+            _screenWidth = _mainCamera.aspect * _screenHeight;
         }
+        public void WrapAroundScreen()
+        {
+            Vector3 viewportPos = _mainCamera.WorldToViewportPoint(transform.position);
+            bool wrapped = false;
 
-        if (viewportPos.y > 1)
-        {
-            viewportPos.y = 0;
-            wrapped = true;
-        }
-        else if (viewportPos.y < 0)
-        {
-            viewportPos.y = 1;
-            wrapped = true;
-        }
+            if (viewportPos.x > 1)
+            {
+                viewportPos.x = 0;
+                wrapped = true;
+            }
+            else if (viewportPos.x < 0)
+            {
+                viewportPos.x = 1;
+                wrapped = true;
+            }
 
-        if (wrapped)
-        {
-            Vector3 newPos = _mainCamera.ViewportToWorldPoint(viewportPos);
-            newPos.z = transform.position.z;
-            transform.position = newPos;
+            if (viewportPos.y > 1)
+            {
+                viewportPos.y = 0;
+                wrapped = true;
+            }
+            else if (viewportPos.y < 0)
+            {
+                viewportPos.y = 1;
+                wrapped = true;
+            }
+
+            if (wrapped)
+            {
+                Vector3 newPos = _mainCamera.ViewportToWorldPoint(viewportPos);
+                newPos.z = transform.position.z;
+                transform.position = newPos;
+            }
         }
     }
 }

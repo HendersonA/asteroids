@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class ScoreUI : MonoBehaviour
+namespace Asteroids
 {
-    public TMP_Text scoreText;
-    private void Start()
+    public class ScoreUI : MonoBehaviour
     {
-        ScoreManager.Instance.OnScore += UpdateScoreDisplay;
-    }
-    private void OnDestroy()
-    {
-        ScoreManager.Instance.OnScore -= UpdateScoreDisplay;
-    }
-    private void UpdateScoreDisplay(int currentScore)
-    {
-        if (scoreText != null)
+        public TMP_Text scoreText;
+        private void Start()
         {
-            scoreText.text = currentScore.ToString("000");
+            ScoreManager.Instance.OnScore += UpdateScoreDisplay;
         }
-        else
+        private void OnDestroy()
         {
-            Debug.LogWarning("Texto de pontuação não atribuído no ScoreManager!");
+            ScoreManager.Instance.OnScore -= UpdateScoreDisplay;
+        }
+        private void UpdateScoreDisplay(int currentScore)
+        {
+            if (scoreText != null)
+            {
+                scoreText.text = currentScore.ToString("000");
+            }
+            else
+            {
+                Debug.LogWarning("Texto de pontuação não atribuído no ScoreManager!");
+            }
         }
     }
 }

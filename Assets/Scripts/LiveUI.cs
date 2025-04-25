@@ -2,30 +2,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LiveUI : MonoBehaviour
+namespace Asteroids
 {
-    [SerializeField] private GameObject _prefab;
-    [SerializeField] private Transform _contentTransform;
-    [SerializeField] private Color _deathColor;
-    private List<GameObject> _liveIcons = new List<GameObject>();
-    private Health _playerHealth;
-    private void Start()
+    public class LiveUI : MonoBehaviour
     {
-        _playerHealth = GameManager.PlayerTransform.GetComponent<Health>();
-        SetLiveUI(_playerHealth.MaxLives);
-        _playerHealth.OnTakeDamage.AddListener((value)=>UpdateLiveUI());
-    }
-    private void SetLiveUI(int amount)
-    {
-        for (int i = 0; i < amount; i++)
+        [SerializeField] private GameObject _prefab;
+        [SerializeField] private Transform _contentTransform;
+        [SerializeField] private Color _deathColor;
+        private List<GameObject> _liveIcons = new List<GameObject>();
+        private Health _playerHealth;
+        private void Start()
         {
-            var liveIcon = Instantiate(_prefab, _contentTransform);
-            _liveIcons.Add(liveIcon);
+            _playerHealth = GameManager.PlayerTransform.GetComponent<Health>();
+            SetLiveUI(_playerHealth.MaxLives);
+            _playerHealth.OnTakeDamage.AddListener((value) => UpdateLiveUI());
         }
-    }
-    private void UpdateLiveUI()
-    {
-        var iconRenderer = _liveIcons[_playerHealth._CurrentLive].GetComponent<Image>();
-        iconRenderer.color = _deathColor;
+        private void SetLiveUI(int amount)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                var liveIcon = Instantiate(_prefab, _contentTransform);
+                _liveIcons.Add(liveIcon);
+            }
+        }
+        private void UpdateLiveUI()
+        {
+            var iconRenderer = _liveIcons[_playerHealth._CurrentLive].GetComponent<Image>();
+            iconRenderer.color = _deathColor;
+        }
     }
 }

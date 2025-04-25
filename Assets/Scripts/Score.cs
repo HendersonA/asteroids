@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class Score : MonoBehaviour
+namespace Asteroids
 {
-    [SerializeField] private int _score = 10;
-
-    public void SetScore()
+    public class Score : MonoBehaviour
     {
-        ScoreManager.Instance.AddScore(_score);
+        [SerializeField] private int _score = 10;
+
+        public void SetScore()
+        {
+            ScoreManager.Instance.AddScore(_score);
+        }
     }
 }

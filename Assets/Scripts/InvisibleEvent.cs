@@ -1,17 +1,22 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class InvisibleEvent : MonoBehaviour
+namespace Asteroids
 {
-    [SerializeField] private UnityEvent _onInvisible;
-    [SerializeField] private UnityEvent _onVisible;
+    public class InvisibleEvent : MonoBehaviour
+    {
+        [SerializeField] private UnityEvent _onInvisible;
+        [SerializeField] private UnityEvent _onVisible;
 
-    private void OnBecameInvisible()
-    {
-        _onInvisible?.Invoke();
-    }
-    private void OnBecameVisible()
-    {
-        _onVisible?.Invoke();
+        private void OnBecameInvisible()
+        {
+            if(GameManager.MainCamera)
+            _onInvisible?.Invoke();
+        }
+        private void OnBecameVisible()
+        {
+            if (GameManager.MainCamera)
+                _onVisible?.Invoke();
+        }
     }
 }

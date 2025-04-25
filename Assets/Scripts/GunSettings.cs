@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts
+namespace Asteroids
 {
     [CreateAssetMenu(fileName = "NewGunSettings", menuName = "ScriptableObjects/GunSettings")]
     public class GunSettings : ScriptableObject
