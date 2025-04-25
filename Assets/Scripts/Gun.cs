@@ -1,10 +1,12 @@
 using Assets.Scripts;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using static ObjectPool;
 
 public class Gun : MonoBehaviour
 {
+    [SerializeField] private UnityEvent _onShot;
     [SerializeField] private float _fireRate = 1f;
     [SerializeField] private GameObject _bulletPrefab;
     [Header("Muzzle")]
@@ -38,7 +40,7 @@ public class Gun : MonoBehaviour
                     poolable = bulletObject.AddComponent<Poolable>();
                     poolable.Prefab = _bulletPrefab;
                 }
-                StartCoroutine(MuzzleFlash());
+                _onShot?.Invoke();
                 bulletObject.SetActive(true);
                 bulletObject.GetComponent<Bullet>().SetBullet(_muzzlePosition, position);
             }
@@ -48,7 +50,8 @@ public class Gun : MonoBehaviour
             Debug.LogError("Bullet Prefab not assigned in the Shooter script.");
         }
     }
-    private IEnumerator MuzzleFlash()
+    public void MuzzleFlashFX() => StartCoroutine(MuzzleFlashCoroutine());
+    private IEnumerator MuzzleFlashCoroutine() //TODO Refatorar
     {
         for (int i = 0; i < _muzzleSprites.Length; i++)
         {
